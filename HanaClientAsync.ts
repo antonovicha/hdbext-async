@@ -2,7 +2,7 @@ import { HanaClient } from '@sap/hana-client';
 import { promisify } from 'util';
 
 class HanaClientAsync {
-  public exec: <T>(arg1: string) => Promise<T>;
+  public exec: <T>(sql: string) => Promise<T>;
   public commit: () => Promise<void>;
   public rollback: () => Promise<void>;
 
