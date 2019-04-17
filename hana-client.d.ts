@@ -1,8 +1,11 @@
 // tslint:disable:max-classes-per-file
 declare module '@sap/hana-client' {
   class Statement {
-    public exec<T>(callback: (error: Error, results: T) => void): void;
-    public exec<T>(params: any[], callback: (error: Error, results: T) => void): void;
+    public exec<TResults>(
+      params?: any[] | null,
+      options?: {} | null,
+      callback?: ((error: Error, results: TResults) => void) | null
+    ): void;
   }
 
   /**
