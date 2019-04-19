@@ -11,8 +11,13 @@
     "database"
   ],
   "license": "mit",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["/dist/"],
   "scripts": {
-    "lint": "tslint *.ts"
+    "lint": "tslint *.ts",
+    "clean": "rm -fr ./dist/*",
+    "build": "npm run clean && tsc && cp *.d.ts ./dist"
   },
   "devDependencies": {
     "@types/node": "^8.10.30",
