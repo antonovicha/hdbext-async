@@ -1,5 +1,5 @@
 {
-  "name": "hdbext-async",
+  "name": "@antonovicha/hdbext-async",
   "version": "1.0.0",
   "description": "Async wrapper for @sap/hdbext.",
   "author": "aleksei antonovich",
