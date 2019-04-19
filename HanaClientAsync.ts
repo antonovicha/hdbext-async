@@ -1,6 +1,6 @@
-import { HanaClient } from '@sap/hana-client';
-import { promisify } from 'util';
-import { StatementAsync } from './StatementAsync';
+import { HanaClient } from "@sap/hana-client";
+import { promisify } from "util";
+import { StatementAsync } from "./StatementAsync";
 
 class HanaClientAsync {
   public exec: <T>(sql: string) => Promise<T>;
@@ -8,7 +8,7 @@ class HanaClientAsync {
   public rollback: () => Promise<void>;
   public prepare: (sql: string) => Promise<StatementAsync>;
 
-  //   var hdb = require('@sap/hana-client');
+  //   var hdb = require("@sap/hana-client");
   //   client = hdb.createClient(options);
   //   req.db = client;
   constructor(client: HanaClient) {

@@ -1,5 +1,5 @@
 // tslint:disable:max-classes-per-file
-declare module '@sap/hana-client' {
+declare module "@sap/hana-client" {
   class Statement {
     public exec<TResults>(
       params?: any[] | null,
