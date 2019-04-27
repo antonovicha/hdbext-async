@@ -1,5 +1,5 @@
-import { Statement } from '@sap/hana-client';
-import { promisify } from 'util';
+import { Statement } from "@sap/hana-client";
+import { promisify } from "util";
 
 class StatementAsync {
   public exec: <TResults>(params?: any[] | null, options?: {} | null) => Promise<TResults>;

@@ -4,7 +4,7 @@ declare module "@sap/hana-client" {
     public exec<TResults>(
       params?: any[] | null,
       options?: {} | null,
-      callback?: ((error: Error, results: TResults) => void) | null
+      callback?: ((error: Error, results: TResults) => void) | null,
     ): void;
   }
 
