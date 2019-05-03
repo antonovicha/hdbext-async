@@ -1,4 +1,4 @@
-// tslint:disable:max-classes-per-file
+// tslint:disable:max-classes-per-file unified-signatures
 declare module "@sap/hana-client" {
   /**
    * Represents hana prepared statement created by `Connection.prepare` call.
@@ -41,15 +41,18 @@ declare module "@sap/hana-client" {
      * exec[ute](sql[, params][, options][, callback])
      */
     // 2 params:
-    public exec(sql: string, params: any[]): void;
+    public exec(sql: string, params: Array<string | number | boolean>): void;
     public exec(sql: string, options: {}): void;
     public exec<T>(sql: string, callback: (error: Error, result: T) => void): void;
     // 3 params:
-    public exec<T>(sql: string, params: any[], callback: (error: Error, result: T) => void): void;
-    public exec(sql: string, params: any[], options: {}): void;
+    public exec<T>(sql: string, params: (string | number | boolean), callback: (error: Error, result: T) => void): void;
+    public exec(sql: string, params: (string | number | boolean), options: {}): void;
     public exec<T>(sql: string, options: {}, callback: (error: Error, result: T) => void): void;
     // 4 params:
-    public exec<T>(sql: string, params: any[], options: {}, callback: (error: Error, result: T) => void): void;
+    public exec<T>(sql: string,
+                   params: (string | number | boolean),
+                   options: {},
+                   callback: (error: Error, result: T) => void): void;
 
     /**
      * prepare(sql, [callback])
