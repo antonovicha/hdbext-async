@@ -1,1 +1,1 @@
-export { HanaClientAsync } from "./HanaClientAsync";
+export { HanaClientAsync } from "./ConnectionAsync";

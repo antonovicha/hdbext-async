@@ -1,8 +1,8 @@
-import { HanaClient } from "@sap/hana-client";
+import { Connection } from "@sap/hana-client";
 import { promisify } from "util";
 import { StatementAsync } from "./StatementAsync";
 
-class HanaClientAsync {
+class ConnectionAsync {
   public exec: <T>(sql: string) => Promise<T>;
   public commit: () => Promise<void>;
   public rollback: () => Promise<void>;
@@ -11,11 +11,15 @@ class HanaClientAsync {
   //   var hdb = require("@sap/hana-client");
   //   client = hdb.createClient(options);
   //   req.db = client;
-  constructor(client: HanaClient) {
-    this.exec = promisify(client.exec);
-    this.commit = promisify(client.commit);
-    this.rollback = promisify(client.rollback);
-    const prepareAsync = promisify(client.prepare);
+  /**
+   * Creates @class ConnectionAsync.
+   * @param connetion native hana `connection` aka `hana-client`.
+   */
+  constructor(connetion: Connection) {
+    this.exec = promisify(connetion.exec);
+    this.commit = promisify(connetion.commit);
+    this.rollback = promisify(connetion.rollback);
+    const prepareAsync = promisify(connetion.prepare);
     this.prepare = async (sql: string) => {
       const stmt = await prepareAsync(sql);
       return new StatementAsync(stmt);
@@ -23,4 +27,4 @@ class HanaClientAsync {
   }
 }
 
-export { HanaClientAsync };
+export { ConnectionAsync as HanaClientAsync };
