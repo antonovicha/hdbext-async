@@ -3,7 +3,7 @@ import { promisify } from "util";
 import { StatementAsync } from "./StatementAsync";
 
 class ConnectionAsync {
-  public exec: <T>(sql: string) => Promise<T>;
+  public exec: <T>(sql: string, params?: any[], options?: {}) => Promise<T>;
   public commit: () => Promise<void>;
   public rollback: () => Promise<void>;
   public prepare: (sql: string) => Promise<StatementAsync>;
@@ -13,13 +13,13 @@ class ConnectionAsync {
   //   req.db = client;
   /**
    * Creates @class ConnectionAsync.
-   * @param connetion native hana `connection` aka `hana-client`.
+   * @param connection native hana `connection` aka `hana-client`.
    */
-  constructor(connetion: Connection) {
-    this.exec = promisify(connetion.exec);
-    this.commit = promisify(connetion.commit);
-    this.rollback = promisify(connetion.rollback);
-    const prepareAsync = promisify(connetion.prepare);
+  constructor(connection: Connection) {
+    this.exec = promisify(connection.exec);
+    this.commit = promisify(connection.commit);
+    this.rollback = promisify(connection.rollback);
+    const prepareAsync = promisify(connection.prepare);
     this.prepare = async (sql: string) => {
       const stmt = await prepareAsync(sql);
       return new StatementAsync(stmt);
