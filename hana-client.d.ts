@@ -6,18 +6,52 @@ declare module "@sap/hana-client" {
    * Implemented as native 'class Connection'.
    */
   class Statement {
+    /**
+     * exec[ute]([params][, options][, callback])
+     */
+    public exec<TResults>(callback: (error: Error, results: TResults) => void): void;
     public exec<TResults>(
-      params?: any[] | null,
-      options?: {} | null,
-      callback?: ((error: Error, results: TResults) => void) | null,
+      params: Array<string | number | boolean>,
+      callback: (error: Error, results: TResults) => void,
     ): void;
-    // NODE_SET_PROTOTYPE_METHOD(tpl, "isValid", isValid);
+    public exec<TResults>(
+      options: {},
+      callback: (error: Error, results: TResults) => void,
+    ): void;
+    public exec<TResults>(
+      params: Array<string | number | boolean>,
+      options: {},
+      callback: (error: Error, results: TResults) => void,
+    ): void;
+
+    public isValid(): boolean;
+
+    /**
+     * exec[ute]Query([params][, callback])
+     */
+    public execQuery<TResults>(callback: (error: Error, results: TResults) => void): void;
+    public execQuery<TResults>(
+      params: Array<string | number | boolean>,
+      callback: (error: Error, results: TResults) => void,
+    ): void;
+
+    /**
+     * exec[ute]Batch([params][, callback])
+     */
+    public execBatch<TResults>(callback: (error: Error, results: TResults) => void): void;
+    public execBatch<TResults>(
+      params: Array<string | number | boolean>,
+      callback: (error: Error, results: TResults) => void,
+      ): void;
+
+    /**
+     * drop([callback])
+     */
+    public drop(callback: (error: Error) => void): void;
+
     // NODE_SET_PROTOTYPE_METHOD(tpl, "execute", exec);
-    // NODE_SET_PROTOTYPE_METHOD(tpl, "execQuery", execQuery);
     // NODE_SET_PROTOTYPE_METHOD(tpl, "executeQuery", execQuery);
-    // NODE_SET_PROTOTYPE_METHOD(tpl, "execBatch", execBatch);
     // NODE_SET_PROTOTYPE_METHOD(tpl, "executeBatch", execBatch);
-    // NODE_SET_PROTOTYPE_METHOD(tpl, "drop", drop);
     // NODE_SET_PROTOTYPE_METHOD(tpl, "getParameterInfo", getParameterInfo);
     // NODE_SET_PROTOTYPE_METHOD(tpl, "getParameterValue", getParameterValue);
     // NODE_SET_PROTOTYPE_METHOD(tpl, "sendParameterData", sendParameterData);
@@ -45,12 +79,12 @@ declare module "@sap/hana-client" {
     public exec(sql: string, options: {}): void;
     public exec<T>(sql: string, callback: (error: Error, result: T) => void): void;
     // 3 params:
-    public exec<T>(sql: string, params: (string | number | boolean), callback: (error: Error, result: T) => void): void;
-    public exec(sql: string, params: (string | number | boolean), options: {}): void;
+    public exec<T>(sql: string, params: string | number | boolean, callback: (error: Error, result: T) => void): void;
+    public exec(sql: string, params: string | number | boolean, options: {}): void;
     public exec<T>(sql: string, options: {}, callback: (error: Error, result: T) => void): void;
     // 4 params:
     public exec<T>(sql: string,
-                   params: (string | number | boolean),
+                   params: string | number | boolean,
                    options: {},
                    callback: (error: Error, result: T) => void): void;
 
