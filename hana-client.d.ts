@@ -49,10 +49,16 @@ declare module "@sap/hana-client" {
      */
     public drop(callback: (error: Error) => void): void;
 
+    public getParameterInfo(): Array<{}>;
+
+    /**
+     * getParameterValue(paramIndex[, callback])
+     */
+    public getParameterValue<TValue>(index: number, callback: (error: Error, result: TValue) => void): void;
+
     // NODE_SET_PROTOTYPE_METHOD(tpl, "execute", exec);
     // NODE_SET_PROTOTYPE_METHOD(tpl, "executeQuery", execQuery);
     // NODE_SET_PROTOTYPE_METHOD(tpl, "executeBatch", execBatch);
-    // NODE_SET_PROTOTYPE_METHOD(tpl, "getParameterInfo", getParameterInfo);
     // NODE_SET_PROTOTYPE_METHOD(tpl, "getParameterValue", getParameterValue);
     // NODE_SET_PROTOTYPE_METHOD(tpl, "sendParameterData", sendParameterData);
     // NODE_SET_PROTOTYPE_METHOD(tpl, "getData", getData);
