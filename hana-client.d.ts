@@ -9,19 +9,19 @@ declare module "@sap/hana-client" {
     /**
      * exec[ute]([params][, options][, callback])
      */
-    public exec<TResults>(callback: (error: Error, results: TResults) => void): void;
+    public exec<TResults>(callback: (error: Error | null, results: TResults) => void): void;
     public exec<TResults>(
       params: Array<string | number | boolean>,
-      callback: (error: Error, results: TResults) => void,
+      callback: (error: Error | null, results: TResults) => void,
     ): void;
     public exec<TResults>(
       options: {},
-      callback: (error: Error, results: TResults) => void,
+      callback: (error: Error | null, results: TResults) => void,
     ): void;
     public exec<TResults>(
       params: Array<string | number | boolean>,
       options: {},
-      callback: (error: Error, results: TResults) => void,
+      callback: (error: Error | null, results: TResults) => void,
     ): void;
 
     public isValid(): boolean;
@@ -29,19 +29,19 @@ declare module "@sap/hana-client" {
     /**
      * exec[ute]Query([params][, callback])
      */
-    public execQuery<TResults>(callback: (error: Error, results: TResults) => void): void;
+    public execQuery<TResults>(callback: (error: Error | null, results: TResults) => void): void;
     public execQuery<TResults>(
       params: Array<string | number | boolean>,
-      callback: (error: Error, results: TResults) => void,
+      callback: (error: Error | null, results: TResults) => void,
     ): void;
 
     /**
      * exec[ute]Batch([params][, callback])
      */
-    public execBatch<TResults>(callback: (error: Error, results: TResults) => void): void;
+    public execBatch<TResults>(callback: (error: Error | null, results: TResults) => void): void;
     public execBatch<TResults>(
       params: Array<string | number | boolean>,
-      callback: (error: Error, results: TResults) => void,
+      callback: (error: Error | null, results: TResults) => void,
       ): void;
 
     /**
@@ -54,7 +54,7 @@ declare module "@sap/hana-client" {
     /**
      * getParameterValue(paramIndex[, callback])
      */
-    public getParameterValue<TValue>(index: number, callback: (error: Error, result: TValue) => void): void;
+    public getParameterValue<TValue>(index: number, callback: (error: Error | null, result: TValue) => void): void;
 
     // NODE_SET_PROTOTYPE_METHOD(tpl, "execute", exec);
     // NODE_SET_PROTOTYPE_METHOD(tpl, "executeQuery", execQuery);
@@ -83,21 +83,23 @@ declare module "@sap/hana-client" {
     // 2 params:
     public exec(sql: string, params: Array<string | number | boolean>): void;
     public exec(sql: string, options: {}): void;
-    public exec<T>(sql: string, callback: (error: Error, result: T) => void): void;
+    public exec<T>(sql: string, callback: (error: Error | null, result: T) => void): void;
     // 3 params:
-    public exec<T>(sql: string, params: string | number | boolean, callback: (error: Error, result: T) => void): void;
+    public exec<T>(sql: string,
+                   params: string | number | boolean,
+                   callback: (error: Error | null, result: T) => void): void;
     public exec(sql: string, params: string | number | boolean, options: {}): void;
-    public exec<T>(sql: string, options: {}, callback: (error: Error, result: T) => void): void;
+    public exec<T>(sql: string, options: {}, callback: (error: Error | null, result: T) => void): void;
     // 4 params:
     public exec<T>(sql: string,
                    params: string | number | boolean,
                    options: {},
-                   callback: (error: Error, result: T) => void): void;
+                   callback: (error: Error | null, result: T) => void): void;
 
     /**
      * prepare(sql, [callback])
      */
-    public prepare(sql: string, callback: (error: Error, stmt: Statement) => void): void;
+    public prepare(sql: string, callback: (error: Error | null, stmt: Statement) => void): void;
 
     /**
      * connect(conn_params[, callback])
