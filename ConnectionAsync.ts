@@ -1,12 +1,13 @@
 import { Connection } from "@sap/hana-client";
 import { promisify } from "util";
+
 import { StatementAsync } from "./StatementAsync";
 
 class ConnectionAsync {
-  public exec: <T>(sql: string, params?: any[], options?: {}) => Promise<T>;
-  public commit: () => Promise<void>;
-  public rollback: () => Promise<void>;
-  public prepare: (sql: string) => Promise<StatementAsync>;
+  public readonly exec: <T>(sql: string, params?: any[], options?: {}) => Promise<T>;
+  public readonly commit: () => Promise<void>;
+  public readonly rollback: () => Promise<void>;
+  public readonly prepare: (sql: string) => Promise<StatementAsync>;
 
   //   var hdb = require("@sap/hana-client");
   //   client = hdb.createClient(options);
