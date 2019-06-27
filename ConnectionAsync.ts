@@ -5,13 +5,15 @@ import { promisify } from "util";
 import { HdbextAsync } from "HdbextAsync";
 import { StatementAsync } from "StatementAsync";
 
+type ProcedureFunctionAsync = (...parameters: Array<string | number | boolean>) => Promise<ProcedureFunctionResult>;
+
 class ConnectionAsync {
   public readonly exec: <T>(sql: string, params?: any[], options?: {}) => Promise<T>;
   public readonly commit: () => Promise<void>;
   public readonly rollback: () => Promise<void>;
   public readonly prepare: (sql: string) => Promise<StatementAsync>;
   public readonly loadProcedure: (schemaName: string | null, procedureName: string) =>
-                                  Promise<(parameters: ProcedureFunctionParams) => Promise<ProcedureFunctionResult>>;
+                                  Promise<ProcedureFunctionAsync>;
   public readonly setAutoCommit: (flag: boolean) => void;
   public readonly close: () => void;
 
@@ -29,7 +31,8 @@ class ConnectionAsync {
     this.loadProcedure = async (schemaName: string | null, procedureName: string) => {
       const spFunc = await hdbext.loadProcedure(connection, schemaName, procedureName);
       const spFuncPromisified = promisify<ProcedureFunctionParams, ProcedureFunctionResult>(spFunc as any);
-      return spFuncPromisified;
+      const spFuncWithParams = (...parameters: Array<string | number | boolean>) => spFuncPromisified(parameters);
+      return spFuncWithParams;
     };
     const prepareAsync = promisify(connection.prepare);
     this.prepare = async (sql: string) => {
