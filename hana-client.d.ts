@@ -111,6 +111,8 @@ declare module "@sap/hana-client" {
      * disconnect([callback])
      */
     public disconnect(callback: (error: Error) => void): void;
+    public close(callback: (error: Error) => void): void;
+    public close(): void;
 
     /**
      * commit([callback])
@@ -155,7 +157,6 @@ declare module "@sap/hana-client" {
 
     // Duplicated functions / methods:
     // NODE_SET_PROTOTYPE_METHOD(tpl, "execute", exec);
-    // NODE_SET_PROTOTYPE_METHOD(tpl, "close", disconnect);
     // NODE_SET_PROTOTYPE_METHOD(tpl, "end", disconnect);
   }
 }
