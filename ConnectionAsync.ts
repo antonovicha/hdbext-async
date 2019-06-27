@@ -12,6 +12,7 @@ class ConnectionAsync {
   public readonly prepare: (sql: string) => Promise<StatementAsync>;
   public readonly loadProcedure: (schemaName: string | null, procedureName: string) =>
                                   Promise<(parameters: ProcedureFunctionParams) => Promise<ProcedureFunctionResult>>;
+  public readonly setAutoCommit: (flag: boolean) => void;
 
   //   var hdb = require("@sap/hana-client");
   //   client = hdb.createClient(options);
@@ -34,6 +35,7 @@ class ConnectionAsync {
       const stmt = await prepareAsync(sql);
       return new StatementAsync(stmt);
     };
+    this.setAutoCommit = (flag) => connection.setAutoCommit(flag);
   }
 }
 
