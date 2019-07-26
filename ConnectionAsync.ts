@@ -1,21 +1,25 @@
-import { Connection } from "@sap/hana-client";
-import { ProcedureFunctionParams, ProcedureFunctionResult } from "@sap/hdbext";
+import { Connection, Statement } from "@sap/hana-client";
+import { ProcedureFunctionResult, SpParam } from "@sap/hdbext";
 import { promisify } from "util";
 
-import { HdbextAsync } from "HdbextAsync";
-import { StatementAsync } from "StatementAsync";
+import { HdbextAsync } from "./HdbextAsync";
+import { StatementAsync } from "./StatementAsync";
 
-type ProcedureFunctionAsync = (...parameters: Array<string | number | boolean>) => Promise<ProcedureFunctionResult>;
+// tslint:disable: interface-name
+interface ProcedureFunctionAsync {
+    (...parameters: SpParam[]): Promise<ProcedureFunctionResult>;
+    (parameters: SpParam[]): Promise<ProcedureFunctionResult>;
+    // tslint:disable-next-line: unified-signatures
+    (parameters: {[key: string]: SpParam}): Promise<ProcedureFunctionResult>;
+}
+// tslint:enable: interface-name
 
 class ConnectionAsync {
   public readonly exec: <T>(sql: string, params?: any[], options?: {}) => Promise<T>;
   public readonly commit: () => Promise<void>;
   public readonly rollback: () => Promise<void>;
-  public readonly prepare: (sql: string) => Promise<StatementAsync>;
-  public readonly loadProcedure: (schemaName: string | null, procedureName: string) =>
-                                  Promise<ProcedureFunctionAsync>;
-  public readonly setAutoCommit: (flag: boolean) => void;
-  public readonly close: () => void;
+
+  private prepareAsync: (sql: string) => Promise<Statement>;
 
   //   var hdb = require("@sap/hana-client");
   //   client = hdb.createClient(options);
@@ -24,23 +28,33 @@ class ConnectionAsync {
    * Creates @class ConnectionAsync.
    * @param connection native hana `connection` aka `hana-client`.
    */
-  constructor(hdbext: HdbextAsync, connection: Connection) {
+  constructor(public readonly hdbextAsync: HdbextAsync, public readonly connection: Connection) {
     this.exec = promisify(connection.exec);
     this.commit = promisify(connection.commit);
     this.rollback = promisify(connection.rollback);
-    this.loadProcedure = async (schemaName: string | null, procedureName: string) => {
-      const spFunc = await hdbext.loadProcedure(connection, schemaName, procedureName);
-      const spFuncPromisified = promisify<ProcedureFunctionParams, ProcedureFunctionResult>(spFunc as any);
-      const spFuncWithParams = (...parameters: Array<string | number | boolean>) => spFuncPromisified(parameters);
-      return spFuncWithParams;
-    };
-    const prepareAsync = promisify(connection.prepare);
-    this.prepare = async (sql: string) => {
-      const stmt = await prepareAsync(sql);
-      return new StatementAsync(stmt);
-    };
-    this.setAutoCommit = (flag) => connection.setAutoCommit(flag);
-    this.close = () => connection.close();
+    this.prepareAsync = promisify(connection.prepare);
+  }
+
+  public async loadProcedure(schemaName: string | null, procedureName: string) {
+    const spFunc = await this.hdbextAsync.loadProcedure(this.connection, schemaName, procedureName);
+    if (!spFunc) {
+      return undefined;
+    }
+    const spFuncPromisified = promisify(spFunc) as any as ProcedureFunctionAsync;
+    return spFuncPromisified;
+  }
+
+  public async prepare(sql: string) {
+    const stmt = await this.prepareAsync(sql);
+    return new StatementAsync(stmt);
+  }
+
+  public setAutoCommit(flag: boolean) {
+    this.connection.setAutoCommit(flag);
+  }
+
+  public close() {
+    this.connection.close();
   }
 }
 

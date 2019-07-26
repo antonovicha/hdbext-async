@@ -21,6 +21,7 @@ declare module "@sap/hdbext" {
    */
   // TODO: find out type of dummyRows & tablesRows.
   type ProcedureFunctionCallback = (parameters: ProcedureFunctionParams, dummyRows: any, tablesRows: any) => void;
+
   /**
    * Returned by promisified `ProcedureFunction` as result.
    */
@@ -37,12 +38,24 @@ declare module "@sap/hdbext" {
                                             (error: Error | null, ...p: P) => R :
                                             never;
 
+  type SpParam = string | number | boolean;
+  interface ProcedureFunction {
+    (parameters: {[key: string]: SpParam}, callback: ProcedureFunctionCallbackWithError): Promise<ProcedureFunctionResult>;
+    /**
+     * @parameters `ProcedureFunctionCallbackWithError` must be last element of array.
+     * Commented out because it causing a lot of type inference issues.
+     * TODO: find a solution.
+     */
+    // (...parameters: Array<SpParam | ProcedureFunctionCallbackWithError>): void;
+    (parameters: SpParam[], callback: ProcedureFunctionCallbackWithError): Promise<ProcedureFunctionResult>;
+  }
+
   /**
    * Returned by `Hdbext.loadProcedure` callback.
    */
-  type ProcedureFunction = (parameters: ProcedureFunctionParams, callback: ProcedureFunctionCallbackWithError) => void;
+  // type ProcedureFunction = (parameters: ProcedureFunctionParams, callback: ProcedureFunctionCallbackWithError) => void;
 
-  type ProcedureFunctionParams = {} | [];
+  type ProcedureFunctionParams = {[key: string]: SpParam} | SpParam[];
 
   /**
    * Represents `@sap/hdbext` async wrapper.
@@ -50,6 +63,6 @@ declare module "@sap/hdbext" {
   class Hdbext {
     public createConnection(hanaConfig: {}, callback: (error: Error | null, connection: Connection) => void): void;
     public loadProcedure(connection: Connection, schemaName: string | null, procedureName: string,
-                         callback: (error: Error | null, procedureFunction: ProcedureFunction) => void): void;
+                         callback: (error: Error | null, procedureFunction: ProcedureFunction | undefined) => void): void;
   }
 }
