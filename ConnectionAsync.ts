@@ -29,10 +29,10 @@ class ConnectionAsync {
    * @param connection native hana `connection` aka `hana-client`.
    */
   constructor(public readonly hdbextAsync: HdbextAsync, public readonly connection: Connection) {
-    this.exec = promisify(connection.exec);
-    this.commit = promisify(connection.commit);
-    this.rollback = promisify(connection.rollback);
-    this.prepareAsync = promisify(connection.prepare);
+    this.exec = promisify(connection.exec.bind(connection));
+    this.commit = promisify(connection.commit.bind(connection));
+    this.rollback = promisify(connection.rollback.bind(connection));
+    this.prepareAsync = promisify(connection.prepare.bind(connection));
   }
 
   public async loadProcedure(schemaName: string | null, procedureName: string) {
