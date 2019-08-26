@@ -1,6 +1,6 @@
 {
   "name": "@antonovicha/hdbext-async",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Async wrapper for @sap/hdbext.",
   "author": "aleksei antonovich",
   "keywords": [
