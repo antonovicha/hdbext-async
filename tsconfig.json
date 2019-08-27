@@ -5,5 +5,10 @@
     "strict": true,
     "outDir": "dist",
     "declaration": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types/@sap"
+    ],
+    "baseUrl": ".",
   }
 }

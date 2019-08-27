@@ -1,6 +1,6 @@
 {
   "name": "@antonovicha/hdbext-async",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Async wrapper for @sap/hdbext.",
   "author": "aleksei antonovich",
   "keywords": [
@@ -19,7 +19,8 @@
   "scripts": {
     "lint": "tslint *.ts",
     "clean": "rm -fr ./dist/*",
-    "build": "npm run clean && tsc && cp *.d.ts ./dist"
+    "build": "npm run clean && tsc && cp *.d.ts ./dist",
+    "prepublishOnly": "npm run lint"
   },
   "devDependencies": {
     "@types/node": "^8.10.30",

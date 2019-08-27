@@ -1,5 +1,5 @@
 import { Connection } from "@sap/hana-client";
-import { Hdbext, ProcedureFunction } from "@sap/hdbext";
+import * as Hdbext from "@sap/hdbext";
 import { promisify } from "util";
 
 import { HanaClientAsync } from "./ConnectionAsync";
@@ -7,7 +7,7 @@ import { HanaClientAsync } from "./ConnectionAsync";
 class HdbextAsync {
   public readonly loadProcedure: (connection: Connection,
                                   schemaName: string | null,
-                                  procedureName: string) => Promise<ProcedureFunction | undefined>;
+                                  procedureName: string) => Promise<Hdbext.ProcedureFunction | undefined>;
 
   private readonly createConnectionAsync: (hanaConfig: {}) => Promise<Connection>;
 
@@ -15,7 +15,7 @@ class HdbextAsync {
    * Creates @class HdbextAsync.
    * @param hdbext object imported from `@sap/hdbext`.
    */
-  constructor(public readonly hdbext: Hdbext) {
+  constructor(public readonly hdbext: Hdbext.hdbextObj) {
     this.loadProcedure = promisify(hdbext.loadProcedure);
     this.createConnectionAsync = promisify(hdbext.createConnection);
   }
