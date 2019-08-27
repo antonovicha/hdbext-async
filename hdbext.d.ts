@@ -1,7 +1,6 @@
-// tslint:disable:max-classes-per-file unified-signatures interface-name
-declare module "@sap/hdbext" {
-  import { Connection } from "@sap/hana-client";
+import { Connection } from "@sap/hana-client";
 
+declare namespace Hdbext {
   interface ProcedureInfo {
     readonly schema: string | null;
     readonly name: string;
@@ -56,13 +55,15 @@ declare module "@sap/hdbext" {
   // type ProcedureFunction = (parameters: ProcedureFunctionParams, callback: ProcedureFunctionCallbackWithError) => void;
 
   type ProcedureFunctionParams = {[key: string]: SpParam} | SpParam[];
-
-  /**
-   * Represents `@sap/hdbext` async wrapper.
-   */
-  class Hdbext {
-    public createConnection(hanaConfig: {}, callback: (error: Error | null, connection: Connection) => void): void;
-    public loadProcedure(connection: Connection, schemaName: string | null, procedureName: string,
-                         callback: (error: Error | null, procedureFunction: ProcedureFunction | undefined) => void): void;
-  }
 }
+
+/**
+ * Represents `@sap/hdbext` async wrapper.
+ */
+declare class Hdbext {
+  createConnection(hanaConfig: {}, callback: (error: Error | null, connection: Connection) => void): void;
+  loadProcedure(connection: Connection, schemaName: string | null, procedureName: string,
+                callback: (error: Error | null, procedureFunction: Hdbext.ProcedureFunction | undefined) => void): void;
+}
+
+export = Hdbext;
