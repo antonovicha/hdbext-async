@@ -1,6 +1,6 @@
 {
   "name": "@antonovicha/hdbext-async",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Async wrapper for @sap/hdbext.",
   "author": "aleksei antonovich",
   "keywords": [
@@ -11,6 +11,13 @@
     "database"
   ],
   "license": "mit",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonovicha/hdbext-async.git"
+  },
+  "bugs": {
+    "url": "https://github.com/antonovicha/hdbext-async/issues"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -27,8 +34,5 @@
     "ts-node": "^8.0.3",
     "tslint": "^5.15.0",
     "typescript": "^3.4.3"
-  },
-  "dependencies": {
-    "@sap/hdbext": "^5.1.0"
   }
 }
