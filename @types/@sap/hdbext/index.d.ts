@@ -5,19 +5,19 @@ declare module "@sap/hdbext" {
 
   namespace hdbext {
     interface ParamsMetadata {
-      readonly PARAMETER_NAME: string,
-      readonly DATA_TYPE_NAME: string,
-      readonly PARAMETER_TYPE: string,
-      readonly HAS_DEFAULT_VALUE: string,
-      readonly IS_INPLACE_TYPE: string,
-      readonly TABLE_TYPE_SCHEMA: string | null,
-      readonly TABLE_TYPE_NAME: string | null,
+      readonly PARAMETER_NAME: string;
+      readonly DATA_TYPE_NAME: string;
+      readonly PARAMETER_TYPE: string;
+      readonly HAS_DEFAULT_VALUE: string;
+      readonly IS_INPLACE_TYPE: string;
+      readonly TABLE_TYPE_SCHEMA: string | null;
+      readonly TABLE_TYPE_NAME: string | null;
     }
 
     interface ProcedureInfo {
       readonly schema: string | null;
       readonly name: string;
-      readonly metadata: ReadonlyArray<ParamsMetadata>
+      readonly metadata: ReadonlyArray<ParamsMetadata>;
     }
 
     type ProcedureFunctionCallback = (error: Error | null, ...parameters: SpParamResult[]) => void;
@@ -42,8 +42,8 @@ declare module "@sap/hdbext" {
     }
 
     /**
-   * Represents `@sap/hdbext` async wrapper.
-   */
+     * Represents `@sap/hdbext` async wrapper.
+     */
     interface hdbextObj {
       createConnection(hanaConfig: {}, callback: (error: Error | null, connection: Connection) => void): void;
       loadProcedure<TResult>(
