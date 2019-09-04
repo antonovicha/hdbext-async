@@ -4,6 +4,6 @@
     "tslint:recommended"
   ],
   "rules": {
-    "array-type": false,
-  },
+    "array-type": false
+  }
 }

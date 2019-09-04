@@ -26,7 +26,7 @@
   "scripts": {
     "lint": "tslint *.ts",
     "clean": "rm -fr ./dist/*",
-    "build": "npm run clean && tsc && cp *.d.ts ./dist && cp -r ./@types ./dist",
+    "build": "npm run clean && tsc && cp -r ./@types ./dist",
     "prepublishOnly": "npm run lint"
   },
   "devDependencies": {
