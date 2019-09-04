@@ -24,7 +24,7 @@ declare module "@sap/hdbext" {
 
     type SpParam = string | number | boolean;
     type SpParamResultValue = string | number | null;
-    type SpParamResult = {} | SpParamResultValue | SpParamResultValue[];
+    type SpParamResult = {} | SpParamResultValue | { [k: string]: SpParamResultValue }[];
 
     /**
      * Returned by `Hdbext.loadProcedure` callback.

@@ -8,8 +8,11 @@ import { StatementAsync } from "./StatementAsync";
 // tslint:disable: interface-name
 interface ProcedureFunctionAsync {
     (parameters: SpParam[]): Promise<SpParamResult[]>;
+    <TResult>(parameters: SpParam[]): Promise<TResult[]>;
     // tslint:disable-next-line: unified-signatures
     (parameters: {[key: string]: SpParam}): Promise<SpParamResult[]>;
+    // tslint:disable-next-line: unified-signatures
+    <TResult>(parameters: {[key: string]: SpParam}): Promise<TResult[]>;
     paramsMetadata: ParamsMetadata[];
 }
 // tslint:enable: interface-name
@@ -35,7 +38,7 @@ class ConnectionAsync {
     this.prepareAsync = promisify(connection.prepare.bind(connection));
   }
 
-  public async loadProcedure<TResult>(schemaName: string | null, procedureName: string) {
+  public async loadProcedure(schemaName: string | null, procedureName: string) {
     const spFunc = await this.hdbextAsync.loadProcedure(this.connection, schemaName, procedureName);
     if (!spFunc) {
       return undefined;
