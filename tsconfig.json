@@ -7,7 +7,7 @@
     "declaration": true,
     "typeRoots": [
       "./node_modules/@types",
-      "./@types/@sap"
+      "./@types"
     ],
     "baseUrl": ".",
   }
