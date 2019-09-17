@@ -17,7 +17,7 @@ interface ProcedureFunctionAsync {
 }
 // tslint:enable: interface-name
 
-class ConnectionAsync {
+class HanaClientAsync {
   public readonly exec: <T>(sql: string, params?: any[], options?: {}) => Promise<T>;
   public readonly commit: () => Promise<void>;
   public readonly rollback: () => Promise<void>;
@@ -28,7 +28,7 @@ class ConnectionAsync {
   //   client = hdb.createClient(options);
   //   req.db = client;
   /**
-   * Creates @class ConnectionAsync.
+   * Creates @class HanaClientAsync.
    * @param connection native hana `connection` aka `hana-client`.
    */
   constructor(public readonly hdbextAsync: HdbextAsync, public readonly connection: Connection) {
@@ -75,4 +75,4 @@ class ConnectionAsync {
   }
 }
 
-export { ConnectionAsync as HanaClientAsync };
+export { HanaClientAsync as HanaClientAsync };

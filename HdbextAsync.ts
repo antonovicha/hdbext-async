@@ -2,7 +2,7 @@ import { Connection } from "@sap/hana-client";
 import * as Hdbext from "@sap/hdbext";
 import { promisify } from "util";
 
-import { HanaClientAsync } from "./ConnectionAsync";
+import { HanaClientAsync } from "./HanaClientAsync";
 
 class HdbextAsync {
   public readonly loadProcedure: (connection: Connection,
