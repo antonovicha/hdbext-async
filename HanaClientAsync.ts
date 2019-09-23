@@ -18,7 +18,6 @@ interface ProcedureFunctionAsync {
 // tslint:enable: interface-name
 
 class HanaClientAsync {
-  public readonly exec: <T>(sql: string, params?: any[], options?: {}) => Promise<T>;
   public readonly commit: () => Promise<void>;
   public readonly rollback: () => Promise<void>;
 
@@ -32,7 +31,6 @@ class HanaClientAsync {
    * @param connection native hana `connection` aka `hana-client`.
    */
   constructor(public readonly hdbextAsync: HdbextAsync, public readonly connection: Connection) {
-    this.exec = promisify(connection.exec.bind(connection));
     this.commit = promisify(connection.commit.bind(connection));
     this.rollback = promisify(connection.rollback.bind(connection));
     this.prepareAsync = promisify(connection.prepare.bind(connection));
@@ -59,6 +57,29 @@ class HanaClientAsync {
     spFuncPromisified.paramsMetadata = spFunc.paramsMetadata;
 
     return spFuncPromisified;
+  }
+
+  public async exec<T>(sql: string, params?: SpParam[], options?: {}) {
+    const promise = new Promise<T>((resolve, reject) => {
+
+      this.connection.exec<T>(sql, params, options, (error: Error | null, ...result: any[]) => {
+        if (error) {
+          reject(error);
+        } else {
+          if (result.length === 0) {
+            resolve();
+          } else if (result.length === 1) {
+            resolve(result[0]);
+          } else {
+            // TODO: better express types here.
+            // AFAIK T could be array or rows or tuple of array of rows.
+            resolve(result as any);
+          }
+        }
+      });
+    });
+
+    return promise;
   }
 
   public async prepare(sql: string) {

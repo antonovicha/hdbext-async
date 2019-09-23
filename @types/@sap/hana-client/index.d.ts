@@ -86,15 +86,15 @@ declare module "@sap/hana-client" {
     public exec<T>(sql: string, callback: (error: Error | null, result: T) => void): void;
     // 3 params:
     public exec<T>(sql: string,
-                   params: string | number | boolean,
+                   params: Array<string | number | boolean>,
                    callback: (error: Error | null, result: T) => void): void;
-    public exec(sql: string, params: string | number | boolean, options: {}): void;
+    public exec(sql: string, params: Array<string | number | boolean>, options: {}): void;
     public exec<T>(sql: string, options: {}, callback: (error: Error | null, result: T) => void): void;
     // 4 params:
     public exec<T>(sql: string,
-                   params: string | number | boolean,
-                   options: {},
-                   callback: (error: Error | null, result: T) => void): void;
+                   params?: Array<string | number | boolean>,
+                   options?: {},
+                   callback?: (error: Error | null, result: T) => void): void;
 
     /**
      * prepare(sql, [callback])
